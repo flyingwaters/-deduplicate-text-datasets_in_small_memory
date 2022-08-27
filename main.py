@@ -4,6 +4,7 @@ parser = argparse.ArgumentParser(description='depulicate')
 parser.add_argument('--query_file_pth', type=str,help ='query file with lines')
 parser.add_argument('--large_dataset_pth', type=str,help='dataset file that waits to be queried')    
 parser.add_argument('--batch_size', type=int,default=10 ,help="the batch num of large dataset")
+parser.add_argument('--subseq_len', type=int, default=100, help="the setting of overlapped sentence len")
 args = parser.parse_args()
 
 process = findOverlap(dataset_dir=args.query_file_pth,batch_size = args.batch_size)
@@ -16,7 +17,7 @@ if start_init:
 project_path = "/".join(current_wd.split("/")[:-1])
 cache_dir = "%s/compare/{}"%(project_path)
 print(query_files)
-result = process.query_between_two_datasets(query_files, cache_dir, c4_batched_list, 100)
+result = process.query_between_two_datasets(query_files, cache_dir, c4_batched_list, args.subseq_len)
 
 import json 
 import os
